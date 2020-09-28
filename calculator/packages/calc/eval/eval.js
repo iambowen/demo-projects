@@ -6,9 +6,12 @@ function main(args) {
     let expr = args['text']
     let result = evaluate(expr)
     let redis = nim.redis()
-    return redis.getAsync(key)
+    
+    redis.getAsync(key)
       .then(reply => { return updateAndReply(redis, asCount(reply), result) })
       .catch(err =>  { return updateAndReply(redis, 0, result) } )
+    
+    return {"result": result, "env": process.env }
 }
 
 function evaluate(exprStr) {
